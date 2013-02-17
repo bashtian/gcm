@@ -3,7 +3,7 @@ gcm
 
 Google Cloud Message implementation in Go
 
-	import github.com/bashtian/gcm
+	import "github.com/bashtian/gcm"
 
 Sending a message
 
