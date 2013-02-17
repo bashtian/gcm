@@ -1,4 +1,4 @@
-gcm
+GCM
 ===
 
 Google Cloud Message implementation in Go
@@ -18,3 +18,8 @@ Sending a message
 	} else {
 		fmt.Printf("%+v", res)
 	}
+	
+### Documentation
+http://godoc.org/github.com/bashtian/gcm
+
+http://developer.android.com/google/gcm/
