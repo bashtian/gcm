@@ -25,6 +25,7 @@ type Sender struct {
 	Key string
 }
 
+// Message represents the data that will be send to the server
 type Message struct {
 	CollapseKey           string            `json:"collapse_key,omitempty"`
 	DelayWhileIdle        string            `json:"delay_while_idle,omitempty"`
@@ -34,6 +35,7 @@ type Message struct {
 	RegistrationIds       []string          `json:"registration_ids"`
 }
 
+// MulticastResult is the response of a Message with multiple registration IDs
 type MulticastResult struct {
 	Success      int      `json:"success"`
 	Failure      int      `json:"failure"`
@@ -43,12 +45,15 @@ type MulticastResult struct {
 	//RetryMulticastIds []int64  `json:"collapse_key"`
 }
 
+// Result is the response of a Message with a single registration ID
 type Result struct {
 	MessageId               string `json:"message_id"`
 	CanonicalRegistrationId string `json:"registration_id"`
 	ErrorCode               string `json:"error"`
 }
 
+
+// NewSender creates a Sender that uses the default HTTP client
 func NewSender(key string) *Sender {
 	return &Sender{
 		Client: &http.Client{},
@@ -56,6 +61,7 @@ func NewSender(key string) *Sender {
 	}
 }
 
+// NewMessage creates a empty Message
 func NewMessage(registrationIds []string) *Message {
 	return &Message{
 		Data:            make(map[string]string),
@@ -63,6 +69,7 @@ func NewMessage(registrationIds []string) *Message {
 	}
 }
 
+// Add adds a new key value pair to the message
 func (m *Message) Add(key, value string) {
 	if m.Data == nil {
 		m.Data = make(map[string]string)
@@ -70,6 +77,7 @@ func (m *Message) Add(key, value string) {
 	m.Data[key] = value
 }
 
+// Send tries to send the message with retries if the sending faild
 func (s *Sender) Send(msg *Message, retries int) (*MulticastResult, error) {
 	for i := 0; i < retries; i++ {
 		if r, err := s.SendNoRetry(msg); err == nil {
@@ -80,6 +88,7 @@ func (s *Sender) Send(msg *Message, retries int) (*MulticastResult, error) {
 	return nil, errors.New("Could not send message after " + strconv.Itoa(retries) + " attempts")
 }
 
+// Send tries to send the message without retries
 func (s *Sender) SendNoRetry(msg *Message) (*MulticastResult, error) {
 	if len(msg.RegistrationIds) == 0 {
 		return nil, errors.New("RegistrationIds cannot be empty")
