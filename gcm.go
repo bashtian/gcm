@@ -52,7 +52,6 @@ type Result struct {
 	ErrorCode               string `json:"error"`
 }
 
-
 // NewSender creates a Sender that uses the default HTTP client
 func NewSender(key string) *Sender {
 	return &Sender{
@@ -62,7 +61,7 @@ func NewSender(key string) *Sender {
 }
 
 // NewMessage creates a empty Message
-func NewMessage(registrationIds []string) *Message {
+func NewMessage(registrationIds ...string) *Message {
 	return &Message{
 		Data:            make(map[string]string),
 		RegistrationIds: registrationIds,
