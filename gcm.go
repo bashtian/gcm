@@ -61,7 +61,7 @@ func NewSender(key string) *Sender {
 }
 
 // NewMessage creates a empty Message
-func NewMessage(registrationIds []string) *Message {
+func NewMessage(registrationIds ...string) *Message {
 	return &Message{
 		Data:            make(map[string]interface{}),
 		RegistrationIds: registrationIds,
