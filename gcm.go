@@ -27,12 +27,12 @@ type Sender struct {
 
 // Message represents the data that will be send to the server
 type Message struct {
-	CollapseKey           string            `json:"collapse_key,omitempty"`
-	DelayWhileIdle        string            `json:"delay_while_idle,omitempty"`
-	TimeToLive            int               `json:"time_to_live,omitempty"`
-	RestrictedPackageName string            `json:"restricted_package_name,omitempty"`
-	Data                  map[string]string `json:"data"`
-	RegistrationIds       []string          `json:"registration_ids"`
+	CollapseKey           string                 `json:"collapse_key,omitempty"`
+	DelayWhileIdle        bool                   `json:"delay_while_idle,omitempty"`
+	TimeToLive            int                    `json:"time_to_live,omitempty"`
+	RestrictedPackageName string                 `json:"restricted_package_name,omitempty"`
+	Data                  map[string]interface{} `json:"data"`
+	RegistrationIds       []string               `json:"registration_ids"`
 }
 
 // MulticastResult is the response of a Message with multiple registration IDs
@@ -61,17 +61,17 @@ func NewSender(key string) *Sender {
 }
 
 // NewMessage creates a empty Message
-func NewMessage(registrationIds ...string) *Message {
+func NewMessage(registrationIds []string) *Message {
 	return &Message{
-		Data:            make(map[string]string),
+		Data:            make(map[string]interface{}),
 		RegistrationIds: registrationIds,
 	}
 }
 
 // Add adds a new key value pair to the message
-func (m *Message) Add(key, value string) {
+func (m *Message) Add(key string, value interface{}) {
 	if m.Data == nil {
-		m.Data = make(map[string]string)
+		m.Data = make(map[string]interface{})
 	}
 	m.Data[key] = value
 }
