@@ -3,13 +3,13 @@ GCM
 
 Google Cloud Message implementation in Go
 
-	import "github.com/bashtian/gcm"
+	go get github.com/bashtian/gcm
 
 Sending a message
 
 	s := gcm.NewSender("API_KEY")
 
-	m := gcm.NewMessage([]string{"DEVICE_REGISTRAION_ID"})
+	m := gcm.NewMessage("DEVICE_REGISTRAION_ID")
 	m.Add("text", "Hello World")
 
 	res, err := s.SendNoRetry(m)
